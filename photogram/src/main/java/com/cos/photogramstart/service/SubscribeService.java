@@ -1,12 +1,11 @@
 package com.cos.photogramstart.service;
 
-import javax.transaction.Transactional;
-
 import org.springframework.stereotype.Service;
 
 import com.cos.photogramstart.domain.subscribe.SubscribeRepository;
 import com.cos.photogramstart.handler.ex.CustomApiException;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

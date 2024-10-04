@@ -2,10 +2,7 @@ package com.cos.photogramstart.service;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.UUID;
-
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +12,7 @@ import com.cos.photogramstart.domain.image.Image;
 import com.cos.photogramstart.domain.image.ImageRepository;
 import com.cos.photogramstart.web.dto.image.ImageUploadDto;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -32,7 +30,7 @@ public class ImageService {
 		String imageFileName = uuid + "_" + imageUploadDto.getFile().getOriginalFilename(); // 파일이름이 들어옴
 		System.out.println("이미지 파일 이름 : " + imageFileName);
 
-		Path imageFilePath = Paths.get(uploadFolder + imageFileName);
+		Path imageFilePath = Path.of(uploadFolder + imageFileName);
 
 		// 통신, I/O -> 예외 발생할 수 있음.
 		try {

@@ -1,9 +1,9 @@
 package com.cos.photogramstart.web.dto.user;
 
-import javax.validation.constraints.NotBlank;
 
 import com.cos.photogramstart.domain.user.User;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
