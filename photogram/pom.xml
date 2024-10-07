@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>org.qlrm</groupId>
 			<artifactId>qlrm</artifactId>
-			<version>2.1.1</version>
+			<version>4.0.1</version>
 		</dependency>
 
 		<!-- 시큐리티 태그 라이브러리 -->
