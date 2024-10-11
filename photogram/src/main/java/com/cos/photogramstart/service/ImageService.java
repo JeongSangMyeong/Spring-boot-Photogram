@@ -2,17 +2,18 @@ package com.cos.photogramstart.service;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cos.photogramstart.config.auth.PrincipalDetails;
 import com.cos.photogramstart.domain.image.Image;
 import com.cos.photogramstart.domain.image.ImageRepository;
 import com.cos.photogramstart.web.dto.image.ImageUploadDto;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -20,6 +21,12 @@ import lombok.RequiredArgsConstructor;
 public class ImageService {
 
 	private final ImageRepository imageRepository;
+
+	@Transactional(readOnly = true) // 영속성 컨텍스트 변경 감지를 해서, 더티체킹, flush(반영) X
+	public List<Image> 이미지스토리(int principalId) {
+		List<Image> images = imageRepository.mStory(principalId);
+		return images;
+	}
 
 	@Value("${file.path}") // application.yml 폴더 안에 file path
 	private String uploadFolder;
@@ -43,6 +50,6 @@ public class ImageService {
 		Image image = imageUploadDto.toEntity(imageFileName, principalDetails.getUser()); // 3d8aea60-701d-462f-985c-32049fede065_wrtFileImageView.jpg
 		imageRepository.save(image);
 
-//		System.out.println(imageEntity);
+		// System.out.println(imageEntity);
 	}
 }
