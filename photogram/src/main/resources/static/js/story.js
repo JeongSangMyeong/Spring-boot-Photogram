@@ -44,7 +44,7 @@ function getStoryItem(image) {
 		<div class="sl__item__contents__icon">
 
 			<button>
-				<i class="fas fa-heart active" id="storyLikeIcon-1" onclick="toggleLike()"></i>
+				<i class="fas fa-heart active" id="storyLikeIcon-${image.id}" onclick="toggleLike(${image.id})"></i>
 			</button>
 		</div>
 
@@ -88,7 +88,7 @@ $(window).scroll(() => {
 	// console.log("윈도우 높이", $(window).height());
 
 	let checkNum = $(window).scrollTop() - ($(document).height() - $(window).height());
-	console.log(checkNum);
+	// console.log(checkNum);
 
 	if(checkNum < 1 && checkNum > -1) {
 		page++;
@@ -98,8 +98,8 @@ $(window).scroll(() => {
 
 
 // (3) 좋아요, 안좋아요
-function toggleLike() {
-	let likeIcon = $("#storyLikeIcon-1");
+function toggleLike(imageId) {
+	let likeIcon = $(`#storyLikeIcon-${imageId}`);
 	if (likeIcon.hasClass("far")) {
 		likeIcon.addClass("fas");
 		likeIcon.addClass("active");
