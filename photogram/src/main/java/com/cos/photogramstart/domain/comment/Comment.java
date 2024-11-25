@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import com.cos.photogramstart.domain.image.Image;
 import com.cos.photogramstart.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,6 +34,7 @@ public class Comment {
     @Column(length = 100, nullable = false)
     private String content;
 
+    @JsonIgnoreProperties({"images", "password"})
     @JoinColumn(name = "userId")
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;

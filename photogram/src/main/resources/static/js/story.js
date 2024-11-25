@@ -52,18 +52,21 @@ function getStoryItem(image) {
 			<p>${image.caption}</p>
 		</div>
 
-		<div id="storyCommentList-${image.id}">
+		<div id="storyCommentList-${image.id}">`;
 
-			<div class="sl__item__contents__comment" id="storyCommentItem-1"">
-				<p>
-					<b>Lovely :</b> 부럽습니다.
-				</p>
+	image.comments.forEach((comment) => {
+		item += `<div class="sl__item__contents__comment" id="storyCommentItem-${comment.id}">
+					<p>
+						<b>${comment.user.username} :</b> ${comment.content}
+					</p>
 
-				<button>
-					<i class="fas fa-times"></i>
-				</button>
-			</div>
+					<button>
+						<i class="fas fa-times"></i>
+					</button>
+				</div>`;
+	});
 
+	item += `
 		</div>
 
 		<div class="sl__item__input">
@@ -116,7 +119,7 @@ function toggleLike(imageId) {
 		}).fail(error => {
 			console.log("오류", error);
 		});
-		
+
 	} else {	// 좋아요 취소
 
 		$.ajax({
@@ -151,21 +154,33 @@ function addComment(imageId) {
 		content: commentInput.val()
 	}
 
-	if(data.content === "") {
+	if (data.content === "") {
 		alert("댓글을 작성해주세요.");
 		return;
 	}
 
 	$.ajax({
-		type:"POST",
-		url:"/api/comment",
+		type: "POST",
+		url: "/api/comment",
 		data: JSON.stringify(data),
-		contentType:"application/json; charset=utf-8",
-		dataType:"JSON",
-	}).done(res =>{
-		console.log("성공", res);
-	}).fail(error=> {
+		contentType: "application/json; charset=utf-8",
+		dataType: "JSON",
+	}).done(res => {
 
+		let comment = res.data;
+
+		let content =
+			`<div class="sl__item__contents__comment" id="storyCommentItem-${comment.id}"> 
+				<p>
+					<b>${comment.user.username} :</b>
+					${comment.content}
+				</p>
+				<button><i class="fas fa-times"></i></button>
+			</div>`;
+
+		commentList.prepend(content);
+	}).fail(error => {
+		console.log("오류", error);
 	})
 
 
@@ -174,16 +189,6 @@ function addComment(imageId) {
 		return;
 	}
 
-	let content = `
-			  <div class="sl__item__contents__comment" id="storyCommentItem-2""> 
-			    <p>
-			      <b>GilDong :</b>
-			      댓글 샘플입니다.
-			    </p>
-			    <button><i class="fas fa-times"></i></button>
-			  </div>
-	`;
-	commentList.prepend(content);
 	commentInput.val("");
 }
 

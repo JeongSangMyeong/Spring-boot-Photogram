@@ -3,6 +3,7 @@ package com.cos.photogramstart.domain.image;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.cos.photogramstart.domain.comment.Comment;
 import com.cos.photogramstart.domain.likes.Likes;
 import com.cos.photogramstart.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
@@ -46,6 +48,10 @@ public class Image { // N, 1
 	private List<Likes> likes;
 
 	// 댓글
+	@OrderBy("id DESC")
+	@JsonIgnoreProperties({"image"})
+	@OneToMany(mappedBy = "image")
+	private List<Comment> comments;
 
 	private LocalDateTime createDate;
 
