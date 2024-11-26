@@ -47,7 +47,7 @@ public class Oauth2DetailsService extends DefaultOAuth2UserService {
                     .build();
 
             return new PrincipalDetails(userRepository.save(user), oAuth2User.getAttributes());
-        } else { // 페이스북으로 이미 회우너가입 되어있음.
+        } else { // 페이스북으로 이미 회원가입 되어있음.
             return new PrincipalDetails(userEntity, oAuth2User.getAttributes());
         }
 
