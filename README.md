@@ -24,7 +24,7 @@ Photogram은 Spring Boot 기반의 **인스타그램 클론 웹 애플리케이�
 ## 🔧 기술 스택
 
 - **Language**: Java 11  
-- **Framework**: Spring Boot 2.x  
+- **Framework**: Spring Boot 3.x  
 - **ORM**: JPA (Hibernate)  
 - **Build Tool**: Maven  
 - **Security**: Spring Security, OAuth2  
