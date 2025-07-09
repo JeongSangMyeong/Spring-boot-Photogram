@@ -3,7 +3,7 @@
 Photogram은 Spring Boot 기반의 **인스타그램 클론 웹 애플리케이션**으로, 실전 소셜 플랫폼 개발 경험과 백엔드 기술 스택을 포트폴리오 형태로 정리한 프로젝트입니다.
 
 > 💼 **제작 목적**: 백엔드 개발자로서의 기술 스택 내재화 및 실전 클론 프로젝트 경험 축적  
-> 📅 **개발 기간**: 2024년 7월 ~ 11월  
+> 📅 **개발 기간**: 2025년 XX월 ~ XX월  
 > 🧑‍💻 **개발 범위**: 백엔드 100% 직접 개발
 
 ---
@@ -23,13 +23,13 @@ Photogram은 Spring Boot 기반의 **인스타그램 클론 웹 애플리케이�
 
 ## 🔧 기술 스택
 
-- **Language**: Java 11
-- **Framework**: Spring Boot 2.x
-- **ORM**: JPA (Hibernate)
-- **Build Tool**: Maven
-- **Security**: Spring Security, OAuth2
-- **Database**: H2 (개발용), MySQL (운영용 변경 가능)
-- **Template**: JSP / JSTL
+- **Language**: Java 11  
+- **Framework**: Spring Boot 2.x  
+- **ORM**: JPA (Hibernate)  
+- **Build Tool**: Maven  
+- **Security**: Spring Security, OAuth2  
+- **Database**: H2 (개발용), MySQL (운영용 변경 가능)  
+- **Template**: JSP / JSTL  
 - **Tools**: Lombok, Servlet Filter, AOP, Validation
 
 ---
@@ -52,3 +52,74 @@ photogram/
 ├── service/                 # 비즈니스 로직
 ├── util/                    # 커스텀 유틸리티 (ex: 파일 저장)
 └── PhotogramStartApplication.java
+```
+
+---
+
+## 📸 UI 미리보기 (추가 예정)
+
+> 인스타그램 스타일의 웹 UI는 기본적인 JSP로 구성되어 있으며, Bootstrap 스타일 기반으로 확장 가능합니다.  
+> 추후 게시물 등록, 피드, 팔로우 화면 캡처 추가 예정입니다.
+
+---
+
+## ⚙️ 실행 방법
+
+1. **Git Clone**
+
+```bash
+git clone https://github.com/your-username/photogram.git
+cd photogram
+```
+
+2. **환경 구성**
+
+`application.yml` 또는 `application.properties`에 다음 설정을 추가합니다:
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: YOUR_GOOGLE_CLIENT_ID
+            client-secret: YOUR_GOOGLE_CLIENT_SECRET
+            scope:
+              - email
+              - profile
+```
+
+3. **실행**
+
+```bash
+./mvnw spring-boot:run
+```
+
+> ✅ OAuth2를 사용하려면 Google Cloud Console에서 클라이언트를 발급받아야 합니다.
+
+---
+
+## 📌 학습 포인트 및 기술 활용
+
+- Spring Security를 활용한 인증 및 로그인 흐름 직접 구현
+- JPA 기반 Entity 관계 설계 및 Repository 사용법 숙지
+- Controller-Service-Domain 분리 기반 설계 경험
+- 예외 처리 통합 핸들러 구성
+- OAuth2 소셜 로그인과 기존 로그인 병행 처리
+
+---
