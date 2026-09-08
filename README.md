@@ -1,125 +1,140 @@
-# 📷 Photogram - Instagram Clone (Spring Boot)
+# 📷 Photogram — Spring Boot 인스타그램 클론
 
-Photogram은 Spring Boot 기반의 **인스타그램 클론 웹 애플리케이션**으로, 실전 소셜 플랫폼 개발 경험과 백엔드 기술 스택을 포트폴리오 형태로 정리한 프로젝트입니다.
+Spring Boot 기반 인스타그램 클론 웹 애플리케이션입니다.
+회원가입·소셜 로그인부터 사진 업로드, 좋아요, 댓글, 팔로우까지 소셜 피드의 기본 동선을 백엔드부터 구현했습니다.
 
-> 💼 **제작 목적**: 백엔드 개발자로서의 기술 스택 내재화 및 실전 클론 프로젝트 경험 축적  
-> 📅 **개발 기간**: 2024년 7월 ~ 11월  
-> 🧑‍💻 **개발 범위**: 백엔드 100% 직접 개발
+> **개발 기간**: 2024년 7월 ~ 11월
+> **기반**: 최주호 강사의 Spring Boot 시큐리티 클론 코딩 강의를 따라가며 만들었고,
+> 그 위에 직접 고치고 추가한 부분이 있습니다. 아래 [직접 구현한 부분](#직접-구현한-부분)에 정리했습니다.
 
 ---
 
 ## 🛠️ 주요 기능
 
-| 기능            | 설명 |
-|-----------------|------|
-| 회원가입 / 로그인 | 일반 로그인 및 소셜 로그인 (Google OAuth2) |
-| 피드 보기       | 로그인 후 사용자 피드 및 인기 이미지 조회 |
-| 게시물 업로드   | 이미지 파일 업로드, 설명 추가 |
-| 좋아요 / 댓글   | 게시물 좋아요, 댓글 작성/삭제 |
-| 팔로우 기능     | 사용자 간 팔로우/언팔로우 |
-| 마이페이지      | 본인 프로필, 게시물 목록, 팔로워/팔로잉 수 |
+| 기능 | 설명 |
+|------|------|
+| 회원가입 / 로그인 | 폼 로그인 + Facebook OAuth2 소셜 로그인 |
+| 피드 | 팔로우한 사용자의 사진 피드, 무한 스크롤 페이징 |
+| 인기 페이지 | 좋아요 수 기준 인기 사진 목록 |
+| 사진 업로드 | 이미지 파일 업로드, 설명 추가 |
+| 좋아요 | 좋아요 / 취소, 카운트 표시 |
+| 댓글 | 작성, 삭제, 유효성 검사 |
+| 팔로우 | 팔로우 / 언팔로우, 구독자 목록 모달 |
+| 프로필 | 본인·타인 프로필, 게시물 목록, 팔로워·팔로잉 수, 프로필 사진 변경 |
+
+---
+
+## 직접 구현한 부분
+
+강의를 따라간 뒤 직접 잡거나 붙인 것들입니다. 커밋으로 확인할 수 있습니다.
+
+### 버그 수정
+
+| 문제 | 수정 | 커밋 |
+|------|------|------|
+| 프로필의 **"회원정보 변경"** 버튼이 `/user/1/update` 로 하드코딩돼 있어, 어떤 계정으로 로그인하든 1번 유저의 수정 페이지로 이동 | `/user/${dto.user.id}/update` 로 변경 | `6256ade` |
+| 정보수정 화면의 프로필 이미지가 `src="#"` 로 되어 있어 **항상 깨진 이미지**로 표시 | 실제 업로드 경로(`/upload/${principal.user.profileImageUrl}`)를 바라보도록 수정 | `6256ade` |
+
+### 기능 추가
+
+| 추가 | 내용 | 커밋 |
+|------|------|------|
+| 스토리 작성자 → 프로필 이동 | 피드에서 작성자 이름을 누르면 해당 계정 프로필로 이동 | `6256ade` |
+| 댓글 작성자 → 프로필 이동 | 댓글에 달린 이름을 누르면 그 계정 프로필로 이동 | `ffb9bf8` |
+| 댓글 표시명 변경 | 댓글에 `username` 대신 `name` 을 노출 | `6256ade` |
+
+강의 범위 안에서 구현한 것 중에도 손이 많이 간 부분이 있습니다 — **AOP 기반 유효성 검사 자동화**(`ValidationAdvice`, `020400e`)로 각 컨트롤러에 흩어져 있던 `BindingResult` 처리를 걷어냈고, **좋아요 기능의 JPA 무한 참조**를 잡았습니다(`536cf49`).
 
 ---
 
 ## 🔧 기술 스택
 
-- **Language**: Java 11  
-- **Framework**: Spring Boot 3.x  
-- **ORM**: JPA (Hibernate)  
-- **Build Tool**: Maven  
-- **Security**: Spring Security, OAuth2  
-- **Database**: H2 (개발용), MySQL (운영용 변경 가능)  
-- **Template**: JSP / JSTL  
-- **Tools**: Lombok, Servlet Filter, AOP, Validation
+| 항목 | 내용 |
+|------|------|
+| Language | **Java 21** |
+| Framework | **Spring Boot 3.3.5** |
+| Build | Maven |
+| ORM | Spring Data JPA (Hibernate) |
+| Security | Spring Security, OAuth2 Client, spring-security-taglibs |
+| Database | **MariaDB** |
+| View | JSP / JSTL (Tomcat Embed Jasper) |
+| 기타 | Lombok, Spring AOP, Bean Validation, QLRM(네이티브 쿼리 매핑), Actuator, DevTools |
 
 ---
 
 ## 📁 프로젝트 구조
 
-```bash
-photogram/
-├── config/                  # 보안 및 웹 설정
-├── config/auth/             # 사용자 인증 처리 (UserDetails 등)
-├── config/oauth/            # OAuth2 로그인 처리
-├── domain/                  # JPA Entity 및 Repository
-│   ├── comment/             # 댓글 엔티티 및 CRUD
-│   ├── image/               # 이미지 업로드/조회
-│   ├── likes/               # 좋아요 기능
-│   ├── subscribe/           # 팔로우/언팔로우
-│   └── user/                # 사용자 정보
-├── dto/                     # 데이터 전달용 객체
-├── handler/                 # 예외 처리 및 응답 래퍼
-├── service/                 # 비즈니스 로직
-├── util/                    # 커스텀 유틸리티 (ex: 파일 저장)
-└── PhotogramStartApplication.java
 ```
-
----
-
-## 📸 UI 미리보기 (추가 예정)
-
-> 인스타그램 스타일의 웹 UI는 기본적인 JSP로 구성되어 있으며, Bootstrap 스타일 기반으로 확장 가능합니다.  
-> 추후 게시물 등록, 피드, 팔로우 화면 캡처 추가 예정입니다.
+photogram/src/main/java/com/cos/photogramstart/
+├── config/              # 보안 및 웹 설정
+│   ├── auth/            # UserDetails, PrincipalDetails
+│   └── oauth/           # OAuth2 로그인 처리
+├── domain/              # JPA 엔티티 및 Repository
+│   ├── comment/
+│   ├── image/
+│   ├── likes/
+│   ├── subscribe/
+│   └── user/
+├── handler/             # 예외 처리
+│   ├── aop/             # ValidationAdvice (유효성 검사 자동화)
+│   └── ex/              # 커스텀 예외
+├── service/             # 비즈니스 로직
+├── util/                # Script 유틸
+└── web/                 # 컨트롤러
+    ├── api/             # REST API 컨트롤러
+    └── dto/             # 요청·응답 DTO
+```
 
 ---
 
 ## ⚙️ 실행 방법
 
-1. **Git Clone**
+### 1. 클론
 
 ```bash
-git clone https://github.com/your-username/photogram.git
-cd photogram
+git clone https://github.com/JeongSangMyeong/Spring-boot-Photogram.git
+cd Spring-boot-Photogram/photogram
 ```
 
-2. **환경 구성**
+### 2. 데이터베이스
 
-`application.yml` 또는 `application.properties`에 다음 설정을 추가합니다:
+MariaDB에 `photogram` 스키마를 만들고 접속 계정을 준비합니다.
+
+```sql
+CREATE DATABASE photogram;
+```
+
+### 3. 설정
+
+`src/main/resources/application.yml` 의 접속 정보와 업로드 경로를 환경에 맞게 수정합니다.
 
 ```yaml
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/photogram?serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true&useSSL=false
+    username: <사용자>
+    password: <비밀번호>
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: YOUR_GOOGLE_CLIENT_ID
-            client-secret: YOUR_GOOGLE_CLIENT_SECRET
-            scope:
-              - email
-              - profile
+file:
+  path: <업로드 파일을 저장할 디렉터리 경로>
 ```
 
-3. **실행**
+`ddl-auto: update` 로 설정돼 있어 첫 실행 시 테이블이 생성됩니다.
+
+### 4. 실행
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-> ✅ OAuth2를 사용하려면 Google Cloud Console에서 클라이언트를 발급받아야 합니다.
+`http://localhost:8080` 으로 접속합니다.
 
 ---
 
-## 📌 학습 포인트 및 기술 활용
+## 알려진 한계
 
-- Spring Security를 활용한 인증 및 로그인 흐름 직접 구현
-- JPA 기반 Entity 관계 설계 및 Repository 사용법 숙지
-- Controller-Service-Domain 분리 기반 설계 경험
-- 예외 처리 통합 핸들러 구성
-- OAuth2 소셜 로그인과 기존 로그인 병행 처리
-
----
+- **소셜 로그인은 추가 설정이 필요합니다.** OAuth2 처리 코드(`Oauth2DetailsService`)는 있지만 `application.yml` 에 `spring.security.oauth2.client.registration` 블록이 없어, 현재 상태 그대로는 Facebook 로그인이 동작하지 않습니다. Facebook 앱을 등록하고 클라이언트 정보를 환경변수로 주입해야 합니다. (자격증명을 저장소에 커밋하지 않으려고 비워둔 상태입니다.)
+- 업로드 경로가 `application.yml` 에 절대 경로로 하드코딩돼 있어 환경마다 수정이 필요합니다.
+- 테스트는 Spring Initializr가 만든 컨텍스트 로딩 스텁만 있습니다.
+- 강의 제공 샘플 이미지 2개(약 7MB)가 저장소에 포함돼 있습니다.
